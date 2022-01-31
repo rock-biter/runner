@@ -35,7 +35,7 @@ export default class BasicScene {
 
         this.scene = new THREE.Scene()
         this.scene.background = new THREE.Color('#111111')
-        this.scene.add(new THREE.AxesHelper(5))
+        // this.scene.add(new THREE.AxesHelper(5))
 
         this.initRenderer()
         this.initDefaultLight()
