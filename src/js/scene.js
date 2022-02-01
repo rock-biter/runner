@@ -13,7 +13,7 @@ export default class BasicScene {
 
     score
     bestScore
-    
+
     scene
     world
 
@@ -42,6 +42,7 @@ export default class BasicScene {
         this.scene.background = new THREE.Color('#111111')
         // this.scene.add(new THREE.AxesHelper(5))
         this.score = document.getElementById('score')
+        
 
         this.initRenderer()
         this.initDefaultLight()

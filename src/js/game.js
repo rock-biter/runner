@@ -46,6 +46,11 @@ export default class GameManager {
             !this.isStarted ? this._startGame() : null 
         });
 
+        if( localStorage.getItem('score') && localStorage.getItem('score').length > 0 ) {
+            this.record = parseInt(localStorage.getItem('score'))
+            document.getElementById('record').innerText = this.record
+        }
+
     }
 
     _createPlayer() {
@@ -122,6 +127,7 @@ export default class GameManager {
 
         if(this.score > this.record) {
             this.record = this.score
+            localStorage.setItem('score',this.record)
             document.getElementById('record').innerText = this.score
             gsap.from('#record',{scale: 2, duration: 1, color: '#f9d744' })
         }
