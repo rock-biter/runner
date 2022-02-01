@@ -11,10 +11,13 @@ export default class BasicScene {
 
     isStarted = false
 
+    score
+    bestScore
+    
     scene
     world
 
-    wind = new CANNON.Vec3(0,0,-0.0005)
+    wind = new CANNON.Vec3(0,0,-0.0002)
 
     camera
     controls
@@ -38,6 +41,7 @@ export default class BasicScene {
         this.scene = new THREE.Scene()
         this.scene.background = new THREE.Color('#111111')
         // this.scene.add(new THREE.AxesHelper(5))
+        this.score = document.getElementById('score')
 
         this.initRenderer()
         this.initDefaultLight()
@@ -96,7 +100,7 @@ export default class BasicScene {
         this.camera.position.set(50, 50, 50)
 
         if(window.innerWidth < 890) {
-            this.camera.zoom = 0.75
+            this.camera.zoom = 0.70
             this.camera.updateProjectionMatrix()
             this.offset = 7
         }
@@ -225,9 +229,11 @@ export default class BasicScene {
         if(this.meshes.length) {
             this.camera.position.z = THREE.MathUtils.lerp(this.meshes[0].position.z + this.camera.position.y - this.offset, this.camera.position.z, 0.9);  
             this.controls.target.z = this.camera.position.z - this.camera.position.y
+            this.score.innerHTML = parseInt(-this.meshes[0].position.z)
         }
       
         // console.log(bullets)
+        
         
         this.render()
     }

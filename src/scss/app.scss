@@ -33,6 +33,28 @@ h1 {
     z-index: 999;
 }
 
+#score {
+    position: fixed;
+    top: 30px;
+    font-size: calc(1vw + 15px);
+    font-weight: 700;
+    text-align: center;
+    left: 30px;
+    z-index: 999;
+    color: #647CD0;
+}
+
+#record {
+    position: fixed;
+    top: 30px;
+    font-size: calc(1vw + 15px);
+    font-weight: 700;
+    text-align: center;
+    right: 30px;
+    z-index: 999;
+    color: #F15A24;
+}
+
 .help {
     position: fixed;
     left: 50vw;
@@ -66,5 +88,15 @@ h1 {
 
     .only-lg {
         display: inline;
+    }
+
+    #record {
+        left: 51%;
+        right: unset;
+    }
+
+    #score {
+        right: 51%;
+        left: unset;
     }
 }

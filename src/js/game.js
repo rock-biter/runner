@@ -15,8 +15,8 @@ export default class GameManager {
 
     x = -1
 
-    score
-    record
+    score = 0
+    record = 0
 
     platforms = []
     initialPlatformNumber = 10
@@ -35,9 +35,7 @@ export default class GameManager {
         this._S = _APP.scene
 
         this._initGame(this.initialPlatformNumber)
-        this._createPlayer()
-
-        
+        this._createPlayer()      
 
         window.addEventListener('gameover', () => {
             this._resetGame()
@@ -120,6 +118,13 @@ export default class GameManager {
     _resetGame() {
 
         document.getElementById('jump-button').innerText = 'Start'
+        this.score = parseInt( document.getElementById('score').innerText )
+
+        if(this.score > this.record) {
+            this.record = this.score
+            document.getElementById('record').innerText = this.score
+            gsap.from('#record',{scale: 2, duration: 1, color: '#f9d744' })
+        }
 
         this.x = -1
         

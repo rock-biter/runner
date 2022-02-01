@@ -35,7 +35,7 @@ export default class Platform {
         }
 
         this.depth = THREE.MathUtils.randInt(z/4,z*2.5)
-        this.gap = Math.floor( THREE.MathUtils.randInt(4,4+z*0.5) );
+        this.gap = Math.floor( THREE.MathUtils.randInt(4,4+z*0.2) );
 
         this.height = 100
 
