@@ -34,8 +34,8 @@ export default class Platform {
             console.log(shader.vertexShader)
         }
 
-        this.depth = THREE.MathUtils.randInt(z/4,z*2.2)
-        this.gap = Math.floor( THREE.MathUtils.randInt(4,10) );
+        this.depth = THREE.MathUtils.randInt(z/4,z*2.5)
+        this.gap = Math.floor( THREE.MathUtils.randInt(4,4+z*0.5) );
 
         this.height = 100
 

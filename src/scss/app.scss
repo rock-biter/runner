@@ -10,6 +10,10 @@
 //     box-sizing: border-box;
 // }
 
+body {
+    user-select: none;
+}
+
 h1 {
     color: $base-color;
 }
@@ -43,6 +47,10 @@ h1 {
     display: block;
 }
 
+.only-lg {
+    display: none;
+}
+
 @media screen AND (min-width: 891px) {
     #jump-button {
         display: none;
@@ -54,5 +62,9 @@ h1 {
         font-weight: 700;
         display: block;
         
+    }
+
+    .only-lg {
+        display: inline;
     }
 }

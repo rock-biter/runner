@@ -14,7 +14,7 @@ export default class BasicScene {
     scene
     world
 
-    wind = new CANNON.Vec3(0,0,-0.002)
+    wind = new CANNON.Vec3(0,0,-0.0005)
 
     camera
     controls
