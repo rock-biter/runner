@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import * as CANNON from 'cannon-es'
+import gsap from 'gsap'
 
 
 import Platform from './platform'
@@ -134,6 +135,10 @@ export default class GameManager {
     
         this._initGame(this.initialPlatformNumber)
         this.isStarted = false
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            gsap.fromTo(el,{autoAlpha: 0, y: 100},{autoAlpha: 1, y: 0, duration: 1.5, ease: 'expo3.inOut' })
+        })
     
     }
 
@@ -149,6 +154,11 @@ export default class GameManager {
     }
 
     _startGame() {
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            gsap.fromTo(el,{autoAlpha: 1, y: 0},{autoAlpha: 0, y: 100, duration: 0.5, ease: 'expo3.inOut' })
+          })
+
         this.isStarted = true
         this.player.body.applyImpulse(new CANNON.Vec3(0,0,-5))
         this._W.gravity = new CANNON.Vec3(0,-100,-1)

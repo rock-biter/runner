@@ -27,4 +27,28 @@ h1 {
     bottom: 50px;
     right: 50px;
     z-index: 999;
+    opacity: 0;
+}
+
+.help {
+    display: none;
+    position: fixed;
+    left: 50vw;
+    top: 50vh;
+    transform: translate(-50%,-50%);
+    opacity: 0;
+}
+
+@media screen AND (min-width: 891px) {
+    #jump-button {
+        display: none;
+    }
+
+    .help {
+        font-size: calc(2vw + 15px);
+        color: white;
+        font-weight: 700;
+        display: block;
+        
+    }
 }

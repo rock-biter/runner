@@ -5,6 +5,7 @@ import * as CANNON from 'cannon-es'
 import BasicScene from './scene'
 // import Platform from './platform';
 import GameManager from './game';
+import gsap from 'gsap';
 
 if (process.env.NODE_ENV === 'development') {
     require('../index.html');
@@ -38,6 +39,10 @@ window.addEventListener('DOMContentLoaded', () => {
     _APP: _APP, 
     config
   });
+
+  document.querySelectorAll('.fade-in').forEach(el => {
+    gsap.fromTo(el,{autoAlpha: 0, y: 100},{autoAlpha: 1, y: 0, duration: 1.5, ease: 'expo3.inOut' })
+  })
 
 
 });
