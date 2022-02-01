@@ -137,6 +137,7 @@ export default class GameManager {
         this._initGame(this.initialPlatformNumber)
         this.isStarted = false
 
+        gsap.killTweensOf(document.querySelectorAll('.fade-in'))
         document.querySelectorAll('.fade-in').forEach(el => {
             gsap.fromTo(el,{autoAlpha: 0, y: 100},{autoAlpha: 1, y: 0, duration: 1.5, ease: 'expo3.inOut' })
         })
@@ -156,6 +157,7 @@ export default class GameManager {
 
     _startGame() {
 
+        gsap.killTweensOf(document.querySelectorAll('.fade-in'))
         document.querySelectorAll('.fade-in').forEach(el => {
             gsap.fromTo(el,{autoAlpha: 1, y: 0},{autoAlpha: 0, y: 100, duration: 0.5, ease: 'expo3.inOut' })
           })
