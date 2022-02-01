@@ -36,6 +36,8 @@ export default class GameManager {
         this._initGame(this.initialPlatformNumber)
         this._createPlayer()
 
+        
+
         window.addEventListener('gameover', () => {
             this._resetGame()
         });
@@ -49,6 +51,10 @@ export default class GameManager {
     _createPlayer() {
         this.player = new Player()
         this.playerController = new PlayerController(this.player)
+
+        document.getElementById('jump-button').addEventListener('click', () => {
+            this.isStarted ? this.playerController._jump(): null;
+        })
 
         this._APP.addObject({mesh: this.player.mesh,body: this.player.body});
         this._S.add(this.player.mesh)
@@ -111,6 +117,8 @@ export default class GameManager {
 
     _resetGame() {
 
+        document.getElementById('jump-button').innerText = 'Start'
+
         this.x = -1
         
         for(let i = 0; i <= this.platforms.length; i++) {
@@ -144,5 +152,7 @@ export default class GameManager {
         this.isStarted = true
         this.player.body.applyImpulse(new CANNON.Vec3(0,0,-5))
         this._W.gravity = new CANNON.Vec3(0,-100,-1)
+
+        document.getElementById('jump-button').innerText = 'Jump!'
       }
 }

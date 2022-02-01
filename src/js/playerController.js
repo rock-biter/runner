@@ -18,6 +18,8 @@ export default class PlayerController {
         this._B = player.body
         this._M = player.mesh
 
+        
+
         window.addEventListener('keydown', () => {
         
             this._jump();

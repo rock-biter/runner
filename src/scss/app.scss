@@ -13,3 +13,18 @@
 h1 {
     color: $base-color;
 }
+
+#jump-button {
+    position: fixed;
+    display: block;
+    color: white;
+    border-color: currentColor;
+    border: 1px solid;
+    width: 80px;
+    line-height: 80px;
+    border-radius: 999px;
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    z-index: 999;
+}
