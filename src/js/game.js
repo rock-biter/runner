@@ -42,6 +42,7 @@ export default class GameManager {
         window.addEventListener('gameover', () => {
             this._resetGame()
         });
+        
 
         window.addEventListener('click', () => {
             !this.isStarted ? this._startGame() : null 
@@ -54,7 +55,7 @@ export default class GameManager {
         this.playerController = new PlayerController(this.player)
 
         window.addEventListener('touchstart', () => {
-            this.isStarted ? this.playerController._jump(): null;
+            this.isStarted ? this.playerController._jump(): this._startGame();
         })
 
         this._APP.addObject({mesh: this.player.mesh,body: this.player.body});
