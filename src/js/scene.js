@@ -94,7 +94,7 @@ export default class BasicScene {
         this.camera.position.set(50, 50, 50)
 
         if(window.innerWidth < 890) {
-            this.camera.zoom = 0.8
+            this.camera.zoom = 0.75
             this.camera.updateProjectionMatrix()
         }
 

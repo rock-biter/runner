@@ -53,7 +53,7 @@ export default class GameManager {
         this.player = new Player()
         this.playerController = new PlayerController(this.player)
 
-        document.getElementById('jump-button').addEventListener('click', () => {
+        window.addEventListener('touchstart', () => {
             this.isStarted ? this.playerController._jump(): null;
         })
 
