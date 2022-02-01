@@ -20,6 +20,8 @@ export default class BasicScene {
     controls
     renderer
 
+    offset = 0
+
     jump = false
 
     lights = []
@@ -96,6 +98,7 @@ export default class BasicScene {
         if(window.innerWidth < 890) {
             this.camera.zoom = 0.75
             this.camera.updateProjectionMatrix()
+            this.offset = 7
         }
 
     }
@@ -220,7 +223,7 @@ export default class BasicScene {
         }
 
         if(this.meshes.length) {
-            this.camera.position.z = THREE.MathUtils.lerp(this.meshes[0].position.z + this.camera.position.y, this.camera.position.z, 0.9);  
+            this.camera.position.z = THREE.MathUtils.lerp(this.meshes[0].position.z + this.camera.position.y - this.offset, this.camera.position.z, 0.9);  
             this.controls.target.z = this.camera.position.z - this.camera.position.y
         }
       
