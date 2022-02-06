@@ -9,8 +9,13 @@
 //     padding: 0;
 //     box-sizing: border-box;
 // }
+:root {
+    --app-height: 100%;
+}
 
 body {
+    height: var(--app-height);
+    overflow: hidden;
     user-select: none;
 }
 
@@ -53,6 +58,19 @@ h1 {
     right: 30px;
     z-index: 999;
     color: #F15A24;
+}
+
+#credits {
+    position: fixed;
+    bottom: 20px;
+    z-index: 999;
+    color: #aaa;
+    font-size: 14px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0 20px;
+    pointer-events: none;
 }
 
 .help {

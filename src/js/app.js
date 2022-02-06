@@ -16,6 +16,12 @@ console.log('hello world');
 let _APP
 let _GAME
 
+
+const appH = () => {
+	const doc = document.documentElement
+	doc.style.setProperty('--app-height',`${window.innerHeight}px`)
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   let world = {
     forces: []
@@ -45,6 +51,7 @@ window.addEventListener('DOMContentLoaded', () => {
   })
 
 
+  appH()
 });
 
 
