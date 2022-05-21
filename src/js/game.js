@@ -6,7 +6,9 @@ import gsap from 'gsap'
 import Platform from './platform'
 import Player from './player'
 import PlayerController from './playerController'
+import Ranking from './ranking'
 import * as SOUNDS from './audio'
+import { incrementDistanceCounter, incrementPlayCounter } from './usage'
 
 export default class GameManager {
 
@@ -28,6 +30,8 @@ export default class GameManager {
     player
     playerController
 
+    ranking
+
     constructor({_APP, config = {}}) {
 
         this._APP = _APP
@@ -35,7 +39,9 @@ export default class GameManager {
         this._S = _APP.scene
 
         this._initGame(this.initialPlatformNumber)
-        this._createPlayer()      
+        this._createPlayer()
+        
+        this.ranking = new Ranking()
 
         window.addEventListener('gameover', () => {
             this._resetGame()
@@ -55,6 +61,7 @@ export default class GameManager {
 
     _createPlayer() {
         this.player = new Player()
+        this._APP.player = this.player
         this.playerController = new PlayerController(this.player)
 
         window.addEventListener('touchstart', () => {
@@ -62,8 +69,9 @@ export default class GameManager {
         })
 
         this._APP.addObject({mesh: this.player.mesh,body: this.player.body});
-        this._S.add(this.player.mesh)
-        this._W.addBody(this.player.body)
+        // this._S.add(this.player.mesh)
+        this._S.add(this.player.sparks.mesh)
+        // this._W.addBody(this.player.body)
 
         SOUNDS._SOUNDTRACK.play()
     }
@@ -125,11 +133,16 @@ export default class GameManager {
         document.getElementById('jump-button').innerText = 'Start'
         this.score = parseInt( document.getElementById('score').innerText )
 
+        const distance = this.score
+        incrementDistanceCounter(distance)
+
         if(this.score > this.record) {
             this.record = this.score
             localStorage.setItem('score',this.record)
             document.getElementById('record').innerText = this.score
             gsap.from('#record',{scale: 2, duration: 1, color: '#f9d744' })
+
+            this.ranking.addNewScore(this.score)
         }
 
         this.x = -1
@@ -167,6 +180,8 @@ export default class GameManager {
     }
 
     _startGame() {
+
+        incrementPlayCounter()
 
         gsap.killTweensOf(document.querySelectorAll('.fade-in'))
         document.querySelectorAll('.fade-in').forEach(el => {
