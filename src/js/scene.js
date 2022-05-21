@@ -19,7 +19,7 @@ export default class BasicScene {
     world
 
     wind = new CANNON.Vec3(0,0,-0.0002)
-    gravity = new THREE.Vector3(0,-1/240,0)
+    gravity = new THREE.Vector3(0,-2/240,0)
 
     camera
     controls
@@ -233,11 +233,13 @@ export default class BasicScene {
 
                 if(py <= 2 && body.position.y < 2.5 && body.position.y > 1.95) {
                     // console.log(body.position);
-                    const px = (Math.random() - 0.5 ) * 1.2
+                    const px = Math.random() < 0.5 ? 1 : -1
+                    const pz = Math.random() < 0.5 ? Math.random() : -Math.random()
                     // console.log([px,0,body.position.z])
-                    positions.set([px,0,body.position.z],randomSparkIndex*3)
-                    velocities.set([px/5,16/120,12/60],randomSparkIndex*3)
-                    colors.setW(0.7,randomSparkIndex)
+                    const vx = Math.sign(px) * Math.random()
+                    positions.set([px,0,body.position.z + pz],randomSparkIndex*3)
+                    velocities.set([vx/3,16/90,12/60],randomSparkIndex*3)
+                    colors.setW(randomSparkIndex,1)
 
                 }
 
@@ -252,12 +254,13 @@ export default class BasicScene {
 
                     velocities.set(v.toArray(),i*3)
                     pos.set(newPos.toArray(),i*3)
-                    colors.setW( colors.getW(i)*0.98 )
+                    colors.setW( i, colors.getW(i)*0.95 )
 
                 }
                 this.player.sparks.geometry.setAttribute('position',new BufferAttribute(pos,3))
                 positions.needsUpdate = true
                 velocities.needsUpdate = true
+                colors.needsUpdate = true
                 // this.player.sparks.geometry.needsUpdate = true
 
                 }

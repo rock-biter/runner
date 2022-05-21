@@ -3,6 +3,8 @@ import * as CANNON from 'cannon-es'
 import { BufferAttribute } from 'three'
 import { Vector3 } from 'three'
 
+
+
 export default class Player {
 
     shape
@@ -21,6 +23,8 @@ export default class Player {
         mesh: null,
         count: 500
     }
+
+    static COLORS = ['#71CDE1','#647CD0','#F15A24','#FF8A65','#039BE5'];
     
 
     constructor() {
@@ -49,11 +53,11 @@ export default class Player {
     addSparks() {
 
         const textureLoader = new THREE.TextureLoader()
-        const texture = textureLoader.load('./public/images/particles/star_04.png')
+        const texture = textureLoader.load('./public/images/particles/star_08.png')
 
         const geometry = new THREE.BufferGeometry()
         const material = new THREE.PointsMaterial({ 
-            size: 25, 
+            size: 40, 
             sizeAttenuation: true, 
             transparent: true, 
             alphaMap: texture, 
@@ -79,10 +83,13 @@ export default class Player {
             const x = (Math.random() - 0.5) * 1.2
             positions.set([x,y,z],i*3)
 
-            const r = 0.4 + Math.random() * 0.6
-            const g = 0.4 + Math.random() * 0.6
-            const b = 0.4 + Math.random() * 0.6
-            colors.set([r,g,b,0],i*3)
+            // const r = 0.4 + Math.random() * 0.6
+            // const g = 0.4 + Math.random() * 0.6
+            // const b = 0.4 + Math.random() * 0.6
+            const colorIndex = Math.floor( Math.random() * Player.COLORS.length )
+            const color = new THREE.Color( Player.COLORS[colorIndex] )
+            console.log(Player.COLORS[colorIndex],colorIndex)
+            colors.set([color.r,color.g,color.b,0],i*4)
 
             velocities.set([0,0,0],i*3)
 
