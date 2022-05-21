@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import gsap from 'gsap'
 
 import * as SOUNDS from './audio'
+import { BufferAttribute } from 'three'
 
 const event = new Event('gameover');
 
@@ -18,6 +19,7 @@ export default class BasicScene {
     world
 
     wind = new CANNON.Vec3(0,0,-0.0002)
+    gravity = new THREE.Vector3(0,-2/240,0)
 
     camera
     controls
@@ -33,6 +35,8 @@ export default class BasicScene {
 
     clock
     fr = 1/60
+
+    player
 
     constructor({ camera = {}, enableShadow = false, world = { forces: []}}) {
 
@@ -68,9 +72,9 @@ export default class BasicScene {
     initControls() {
 
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-        this.controls.enableRotate = false
+        // this.controls.enableRotate = false
         this.controls.enableZoom = false
-        this.controls.enablePan = false
+        // this.controls.enablePan = false
         this.controls.enableDamping = true
         this.controls.target = new THREE.Vector3(0,0,0)
     }
@@ -103,7 +107,7 @@ export default class BasicScene {
         this.camera.position.set(50, 50, 50)
 
         if(window.innerWidth < 890) {
-            this.camera.zoom = 0.70
+            this.camera.zoom = 0.60
             this.camera.updateProjectionMatrix()
             this.offset = 7
         }
@@ -207,13 +211,60 @@ export default class BasicScene {
         }
 
         
-      
+        
+        
         this.world.gravity.vadd(this.wind)
-      
+        
         let delta = Math.min(this.clock.getDelta(), 0.1)
-      
+        
         this.world.step(delta)
+        
+        if(this.player?.sparks) {
+            const positions = this.player.sparks.geometry.getAttribute('position')
+            const velocities = this.player.sparks.geometry.getAttribute('velocity')
+            const colors = this.player.sparks.geometry.getAttribute('color')
+            // console.log(positions)
 
+            if(body.velocity.z != 0) {
+                const pos = new Float32Array(this.player.sparks.count*3)
+            
+                const randomSparkIndex = Math.floor( Math.random() * positions.count )
+                const py = positions.getY(randomSparkIndex)
+
+                if(py <= 2 && body.position.y < 2.5 && body.position.y > 1.95) {
+                    // console.log(body.position);
+                    const px = Math.random() < 0.5 ? 1 : -1
+                    const pz = Math.random() < 0.5 ? Math.random() : -Math.random()
+                    // console.log([px,0,body.position.z])
+                    const vx = Math.sign(px) * Math.random()
+                    positions.set([px,0,body.position.z + pz],randomSparkIndex*3)
+                    velocities.set([vx/3,16/90,12/60],randomSparkIndex*3)
+                    colors.setW(randomSparkIndex,1)
+
+                }
+
+                for(let i = 0; i < positions.count; i++ ) {
+                    
+                    const p = new THREE.Vector3(positions.getX(i),positions.getY(i),positions.getZ(i))
+                    const v = new THREE.Vector3(velocities.getX(i),velocities.getY(i),velocities.getZ(i))
+                    v.add( this.gravity )
+
+                    // console.log(v)
+                    const newPos = p.add(v)
+
+                    velocities.set(v.toArray(),i*3)
+                    pos.set(newPos.toArray(),i*3)
+                    colors.setW( i, colors.getW(i)*0.95 )
+
+                }
+                this.player.sparks.geometry.setAttribute('position',new BufferAttribute(pos,3))
+                positions.needsUpdate = true
+                velocities.needsUpdate = true
+                colors.needsUpdate = true
+                // this.player.sparks.geometry.needsUpdate = true
+
+                }
+        }
 
         for(let i =0; i < this.bodies.length; i++) {
 

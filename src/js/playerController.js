@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import * as CANNON from 'cannon-es'
 
 import * as SOUNDS from './audio'
+import { incrementJumpCounter } from './usage'
 
 export default class PlayerController {
 
@@ -34,6 +35,7 @@ export default class PlayerController {
             this._B.applyImpulse(new CANNON.Vec3(0,12,0))
             SOUNDS._JUMP.play()
             // this.isJumping = true
+            incrementJumpCounter()
         }
 
     }

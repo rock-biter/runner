@@ -54,6 +54,10 @@ window.addEventListener('DOMContentLoaded', () => {
   appH()
 });
 
+window.addEventListener('rankingChange',() => {
+  console.log('ranking was changed')
+})
+
 
 
 
