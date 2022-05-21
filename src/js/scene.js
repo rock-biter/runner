@@ -72,9 +72,9 @@ export default class BasicScene {
     initControls() {
 
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-        // this.controls.enableRotate = false
+        this.controls.enableRotate = false
         this.controls.enableZoom = false
-        // this.controls.enablePan = false
+        this.controls.enablePan = false
         this.controls.enableDamping = true
         this.controls.target = new THREE.Vector3(0,0,0)
     }

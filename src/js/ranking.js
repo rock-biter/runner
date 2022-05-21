@@ -35,7 +35,8 @@ export default class Ranking {
       //SET 100 BEST SCORES
       this.ranking = ranking
       // emit ranking change
-      window.dispatchEvent( new CustomEvent('rankingChange') )
+      this.printRanking()
+      // window.dispatchEvent( new CustomEvent('rankingChange') )
     })
 
   }
@@ -51,6 +52,13 @@ export default class Ranking {
       console.log('document written with ID: ', docRef.id);
     })
 
+
+  }
+
+  printRanking() {
+
+    document.getElementById('best-score__points').innerHTML = this.bestScore
+    document.getElementById('best-score').style.display = 'flex'
 
   }
 

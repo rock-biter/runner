@@ -60,6 +60,21 @@ h1 {
     color: #F15A24;
 }
 
+#best-score {
+    position: fixed;
+    top: 30px;
+    font-size: calc(1vw + 15px);
+    font-weight: 700;
+    text-align: center;
+    left: 50vw;
+    transform: translateX(-50%);
+    z-index: 999;
+    color: gold;
+    // display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
 #credits {
     position: fixed;
     bottom: 20px;
@@ -116,5 +131,13 @@ h1 {
     #score {
         right: 51%;
         left: unset;
+    }
+
+    #best-score {
+        top: 70px;
+    }
+
+    #best-score svg {
+        width: 28px;
     }
 }

@@ -130,7 +130,8 @@ export default class GameManager {
 
     _resetGame() {
 
-        document.getElementById('jump-button').innerText = 'Start'
+        this.player.resetSparksAttribute()
+        // document.getElementById('jump-button').innerText = 'Start'
         this.score = parseInt( document.getElementById('score').innerText )
 
         const distance = this.score
@@ -192,6 +193,6 @@ export default class GameManager {
         this.player.body.applyImpulse(new CANNON.Vec3(0,0,-5))
         this._W.gravity = new CANNON.Vec3(0,-100,-1)
 
-        document.getElementById('jump-button').innerText = 'Jump!'
+        // document.getElementById('jump-button').innerText = 'Jump!'
       }
 }
