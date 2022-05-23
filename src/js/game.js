@@ -123,7 +123,6 @@ export default class GameManager {
         }
 
         let i = parseInt( Math.random() * ( Platform.COLORS.length - 1));
-        console.log(Platform.COLORS[i]);
         platform.mesh.material.color = new THREE.Color(Platform.COLORS[i]);
     
     }
@@ -175,8 +174,6 @@ export default class GameManager {
         for(let i = 0; i < num; i++) {
             this._addPlatform()
         }
-
-        console.log(this.platforms)   
     
     }
 

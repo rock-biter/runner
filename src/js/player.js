@@ -89,13 +89,12 @@ export default class Player {
             // const b = 0.4 + Math.random() * 0.6
             const colorIndex = Math.floor( Math.random() * Player.COLORS.length )
             const color = new THREE.Color( Player.COLORS[colorIndex] )
-            console.log(Player.COLORS[colorIndex],colorIndex)
             colors.set([color.r,color.g,color.b,0],i*4)
 
             velocities.set([0,0,0],i*3)
 
         }
-        console.log(velocities)
+
         positions.needsUpdate = true
         colors.needsUpdate = true
         velocities.needsUpdate = true

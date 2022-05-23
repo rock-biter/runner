@@ -49,7 +49,7 @@ export default class Ranking {
       points: parseInt(score),
       data: new Date()
     }).then(() => {
-      console.log('document written with ID: ', docRef.id);
+      // console.log('document written with ID: ', docRef.id);
     })
 
 
