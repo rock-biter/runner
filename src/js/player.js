@@ -24,7 +24,8 @@ export default class Player {
         count: 500
     }
 
-    static COLORS = ['#71CDE1','#647CD0','#F15A24','#FF8A65','#039BE5'];
+    // static COLORS = ['#71CDE1','#647CD0','#F15A24','#FF8A65','#039BE5'];
+    static COLORS = ['#647CD0','#F15A24','#FF8A65'];
     
 
     constructor() {
@@ -57,7 +58,7 @@ export default class Player {
 
         const geometry = new THREE.BufferGeometry()
         const material = new THREE.PointsMaterial({ 
-            size: 40, 
+            size: window.innerWidth < 890 ? 20 : 25, 
             sizeAttenuation: true, 
             transparent: true, 
             alphaMap: texture, 
@@ -88,13 +89,12 @@ export default class Player {
             // const b = 0.4 + Math.random() * 0.6
             const colorIndex = Math.floor( Math.random() * Player.COLORS.length )
             const color = new THREE.Color( Player.COLORS[colorIndex] )
-            console.log(Player.COLORS[colorIndex],colorIndex)
             colors.set([color.r,color.g,color.b,0],i*4)
 
             velocities.set([0,0,0],i*3)
 
         }
-        console.log(velocities)
+
         positions.needsUpdate = true
         colors.needsUpdate = true
         velocities.needsUpdate = true
@@ -105,6 +105,24 @@ export default class Player {
 
         // this.mesh.add( mesh )
 
+
+    }
+
+    resetSparksAttribute() {
+
+        const position = this.sparks.geometry.getAttribute('position')
+        const velocity = this.sparks.geometry.getAttribute('velocity')
+        const color = this.sparks.geometry.getAttribute('color')
+
+        for(let i = 0; i < this.sparks.count; i++) {
+            position.set([0,0,0],i*3)
+            velocity.set([0,0,0],i*3)
+            color.setW(i,0)
+        }
+
+        position.needsUpdate = true
+        velocity.needsUpdate = true
+        color.needsUpdate = true
 
     }
 }

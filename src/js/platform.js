@@ -31,7 +31,6 @@ export default class Platform {
             vec4 diffuseColor = vec4( diffuse, opacity - clamp(yCoord, 0.0, 1.0) );
             `)
 
-            console.log(shader.vertexShader)
         }
 
         this.depth = THREE.MathUtils.randInt(z/4,z*2.5)

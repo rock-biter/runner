@@ -123,14 +123,14 @@ export default class GameManager {
         }
 
         let i = parseInt( Math.random() * ( Platform.COLORS.length - 1));
-        console.log(Platform.COLORS[i]);
         platform.mesh.material.color = new THREE.Color(Platform.COLORS[i]);
     
     }
 
     _resetGame() {
 
-        document.getElementById('jump-button').innerText = 'Start'
+        this.player.resetSparksAttribute()
+        // document.getElementById('jump-button').innerText = 'Start'
         this.score = parseInt( document.getElementById('score').innerText )
 
         const distance = this.score
@@ -174,8 +174,6 @@ export default class GameManager {
         for(let i = 0; i < num; i++) {
             this._addPlatform()
         }
-
-        console.log(this.platforms)   
     
     }
 
@@ -192,6 +190,6 @@ export default class GameManager {
         this.player.body.applyImpulse(new CANNON.Vec3(0,0,-5))
         this._W.gravity = new CANNON.Vec3(0,-100,-1)
 
-        document.getElementById('jump-button').innerText = 'Jump!'
+        // document.getElementById('jump-button').innerText = 'Jump!'
       }
 }

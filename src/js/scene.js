@@ -72,9 +72,9 @@ export default class BasicScene {
     initControls() {
 
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-        // this.controls.enableRotate = false
+        this.controls.enableRotate = false
         this.controls.enableZoom = false
-        // this.controls.enablePan = false
+        this.controls.enablePan = false
         this.controls.enableDamping = true
         this.controls.target = new THREE.Vector3(0,0,0)
     }
@@ -149,7 +149,7 @@ export default class BasicScene {
             force = force.vadd(f);
         }
 
-        console.log(force);
+        // console.log(force);
         // todo: sum all the forces and apply to world
         this.world = new CANNON.World({
             gravity: force,
@@ -160,7 +160,7 @@ export default class BasicScene {
     }
 
     onWindowResize() {
-        console.log('resize')
+        // console.log('resize')
         if(this.camera instanceof THREE.PerspectiveCamera) {
             this.camera.aspect = window.innerWidth / window.innerHeight
         } else if(this.camera instanceof THREE.OrthographicCamera) {

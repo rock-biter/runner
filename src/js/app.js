@@ -1,6 +1,7 @@
 import '../scss/app.scss';
 import * as THREE from 'three'
 import * as CANNON from 'cannon-es'
+import './registerServiceWorker'
 
 import BasicScene from './scene'
 // import Platform from './platform';
@@ -10,8 +11,6 @@ import gsap from 'gsap';
 if (process.env.NODE_ENV === 'development') {
     require('../index.html');
   }
-
-console.log('hello world');
 
 let _APP
 let _GAME
@@ -54,9 +53,6 @@ window.addEventListener('DOMContentLoaded', () => {
   appH()
 });
 
-window.addEventListener('rankingChange',() => {
-  console.log('ranking was changed')
-})
 
 
 
