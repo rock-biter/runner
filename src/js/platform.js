@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import * as CANNON from 'cannon-es'
+import Enemy from './enemy'
 
 export default class Platform {
 	phongMaterial
@@ -10,8 +11,12 @@ export default class Platform {
 	mesh
 	body
 
-	constructor(x, velocity) {
+	enemies = []
+	gameManager
+
+	constructor(x, velocity, gameManager) {
 		// console.log(velocity)
+		this.gameManager = gameManager
 		let z = velocity.z ? Math.floor(Math.abs(velocity.z)) : 20
 
 		this.phongMaterial = new THREE.MeshPhongMaterial({
@@ -51,6 +56,30 @@ export default class Platform {
 		this.body.allowSleep = true
 
 		this.body.material = new CANNON.Material({ friction: 0 })
+
+		const numOfEnemies = Math.round(this.depth / 130)
+
+		for (let i = 0; i < numOfEnemies; i++) {
+			this._addEnemy()
+		}
+	}
+
+	_addEnemy() {
+		let zPos = this.mesh.position.z
+		zPos += (Math.random() - 0.5) * 0.9 * this.depth
+
+		console.log(Math.random() - 0.5)
+
+		const e = new Enemy(this.gameManager, new THREE.Vector3(0, 0, zPos))
+
+		this.enemies.push(e)
+
+		// this._S.add(e.mesh)
+		// this._W.addBody(e.body)
+		this.gameManager._APP.addObject({
+			mesh: e.mesh,
+			body: e.body,
+		})
 	}
 
 	static COLORS = ['#71CDE1', '#647CD0', '#F15A24', '#FF8A65', '#039BE5']

@@ -110,6 +110,29 @@ export default class BasicScene {
 		this.addMesh(mesh)
 	}
 
+	removeObject({ mesh, body }) {
+		this.removeBody(body)
+		this.removeMesh(mesh)
+	}
+
+	removeMesh(mesh) {
+		const i = this.meshes.indexOf(mesh)
+		if (i >= 0) {
+			this.meshes.splice(i, 1)
+			this.scene.remove(mesh)
+		}
+	}
+
+	removeBody(body) {
+		const i = this.bodies.indexOf(body)
+		if (i >= 0) {
+			this.bodies.splice(i, 1)
+			setTimeout(() => {
+				this.world.removeBody(body)
+			}, 50)
+		}
+	}
+
 	addMesh(mesh) {
 		this.meshes.push(mesh)
 		this.scene.add(mesh)
@@ -182,12 +205,12 @@ export default class BasicScene {
 		})
 
 		// this.controls && this.controls.update()
-		let body = this.player?.body //this.bodies[0]
+		let player = this.player?.body //this.bodies[0]
 
-		if (body) {
-			if (this.isStarted) body.applyImpulse(this.wind)
+		if (player) {
+			if (this.isStarted) player.applyImpulse(this.wind)
 
-			if (body.position.y < -20) this.gameover = true
+			if (player.position.y < -20) this.gameover = true
 		}
 
 		if (this.gameover) {
@@ -207,19 +230,19 @@ export default class BasicScene {
 			const colors = this.player.sparks.geometry.getAttribute('color')
 			// console.log(positions)
 
-			if (body.velocity.z != 0) {
+			if (player.velocity.z != 0) {
 				const pos = new Float32Array(this.player.sparks.count * 3)
 
 				const randomSparkIndex = Math.floor(Math.random() * positions.count)
 				const py = positions.getY(randomSparkIndex)
 
-				if (py <= 2 && body.position.y < 2.5 && body.position.y > 1.95) {
+				if (py <= 2 && player.position.y < 2.5 && player.position.y > 1.95) {
 					// console.log(body.position);
 					const px = Math.random() < 0.5 ? 1 : -1
 					const pz = Math.random() < 0.5 ? Math.random() : -Math.random()
 					// console.log([px,0,body.position.z])
 					const vx = Math.sign(px) * Math.random()
-					positions.set([px, 0, body.position.z + pz], randomSparkIndex * 3)
+					positions.set([px, 0, player.position.z + pz], randomSparkIndex * 3)
 					velocities.set([vx / 3, 16 / 90, 12 / 60], randomSparkIndex * 3)
 					colors.setW(randomSparkIndex, 1)
 				}
@@ -255,8 +278,14 @@ export default class BasicScene {
 			}
 		}
 
+		// console.log(this.bodies)
+
 		for (let i = 0; i < this.bodies.length; i++) {
 			// console.log(this.meshes[i]);
+
+			// if (this.bodies[i].mass === 0) {
+			// 	this.bodies[i].position.z += 0.1
+			// }
 
 			this.meshes[i].position.copy(this.bodies[i].position)
 
@@ -265,12 +294,12 @@ export default class BasicScene {
 
 		if (this.meshes.length) {
 			this.camera.position.z = THREE.MathUtils.lerp(
-				this.meshes[0].position.z + this.camera.position.y - this.offset,
+				player.position.z + this.camera.position.y - this.offset,
 				this.camera.position.z,
 				0.9
 			)
 			this.controls.target.z = this.camera.position.z - this.camera.position.y
-			this.score.innerHTML = parseInt(-this.meshes[0].position.z)
+			this.score.innerHTML = parseInt(-player.position.z * 2)
 		}
 
 		// console.log(bullets)

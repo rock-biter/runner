@@ -79,14 +79,7 @@ export default class GameManager {
 
 		SOUNDS._SOUNDTRACK.play()
 
-		this._addEnemy()
-	}
-
-	_addEnemy() {
-		const e = new Enemy(this)
-
-		this._S.add(e.mesh)
-		this._W.addBody(e.body)
+		// this._addEnemy()
 	}
 
 	_addPlatform() {
@@ -97,7 +90,7 @@ export default class GameManager {
 			velocity = new CANNON.Vec3()
 		}
 
-		let p = new Platform(this.x, velocity)
+		let p = new Platform(this.x, velocity, this)
 		this.platforms.push(p)
 		this._W.addBody(p.body)
 		this._S.add(p.mesh)
@@ -120,6 +113,10 @@ export default class GameManager {
 	_removePlatform(p) {
 		this._W.removeBody(p.body)
 		this._S.remove(p.mesh)
+
+		if (p.enemies) {
+			p.enemies.forEach((enemy) => this._APP.removeObject(enemy))
+		}
 
 		p.mesh.geometry.dispose()
 	}
