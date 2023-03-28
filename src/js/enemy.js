@@ -28,6 +28,10 @@ export default class Enemy {
 			flatShading: true,
 		})
 		this.mesh = new THREE.Mesh(this.geometry, this.material)
+		this.mesh.userData = {
+			isEnemy: true,
+			type: type,
+		}
 
 		if (position) {
 			this.mesh.position.copy(position)

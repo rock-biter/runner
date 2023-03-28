@@ -40,7 +40,7 @@ export default class Platform {
 			)
 		}
 
-		this.depth = THREE.MathUtils.randInt(z / 2, z * 2.5) * 2
+		this.depth = THREE.MathUtils.randInt(z * 2, z * 4) * 2
 		this.gap = Math.floor(THREE.MathUtils.randInt(4, 4 + z * 0.2))
 
 		this.height = 100
@@ -61,7 +61,7 @@ export default class Platform {
 
 		this.body.material = new CANNON.Material({ friction: 0 })
 
-		const numOfEnemies = Math.round(this.depth / 130)
+		const numOfEnemies = Math.round(this.depth / 200)
 
 		// console.log(this.number)
 		if (this.number > 0) {
@@ -73,13 +73,15 @@ export default class Platform {
 
 	_addEnemy() {
 		let type, zPos, velocity
-		if (!this.gameManager.isStarted) {
+		if (!this.gameManager.isStarted || this.gameManager._APP.gameover) {
 			type = 'shit'
 		} else {
 			const i = THREE.MathUtils.randInt(0, this.enemyTypes.length - 1)
 			console.log(i)
 			type = this.enemyTypes[i]
 		}
+
+		console.log(type)
 
 		zPos = this.mesh.position.z
 		zPos += (Math.random() - 0.5) * 0.9 * this.depth

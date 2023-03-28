@@ -229,7 +229,6 @@ export default class BasicScene {
 		}
 
 		if (this.gameover) {
-			this.gameover = false
 			this.reset()
 		}
 
@@ -292,7 +291,7 @@ export default class BasicScene {
 			}
 		}
 
-		// console.log(this.bodies)
+		// console.log(this.meshes)
 
 		for (let i = 0; i < this.bodies.length; i++) {
 			// console.log(this.meshes[i]);
@@ -301,8 +300,15 @@ export default class BasicScene {
 			// 	this.bodies[i].position.z += 0.1
 			// }
 
-			this.meshes[i].position.copy(this.bodies[i].position)
-			this.meshes[i].quaternion.copy(this.bodies[i].quaternion)
+			const mesh = this.meshes[i]
+			const { isEnemy, type } = mesh.userData || {}
+
+			mesh.position.copy(this.bodies[i].position)
+			if (isEnemy && type === 'ballshit') {
+				mesh.rotation.x += 0.2
+			} else {
+				mesh.quaternion.copy(this.bodies[i].quaternion)
+			}
 		}
 
 		// if (player) {

@@ -115,7 +115,10 @@ export default class GameManager {
 		this._S.remove(p.mesh)
 
 		if (p.enemies) {
-			p.enemies.forEach((enemy) => this._APP.removeObject(enemy))
+			p.enemies.forEach((enemy) => {
+				const { mesh, body } = enemy
+				this._APP.removeObject({ mesh, body })
+			})
 		}
 
 		p.mesh.geometry.dispose()
@@ -150,7 +153,7 @@ export default class GameManager {
 
 		this.x = -1
 
-		for (let i = 0; i <= this.platforms.length; i++) {
+		for (let i = 0; i < this.platforms.length; i++) {
 			let pl = this.platforms[i]
 
 			if (pl) {
@@ -177,6 +180,8 @@ export default class GameManager {
 		for (let i = 0; i < num; i++) {
 			this._addPlatform()
 		}
+
+		this._APP.gameover = false
 	}
 
 	_startGame() {
