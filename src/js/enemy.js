@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import * as CANNON from 'cannon-es'
 import _ from 'lodash'
+import * as SOUNDS from './audio'
 import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils'
 
 export default class Enemy {
@@ -73,6 +74,7 @@ export default class Enemy {
 		if (this.sleep) return
 
 		this.sleep = true
+		SOUNDS._SHIT.play()
 
 		if (this.gameManager.isStarted) {
 			// console.log(this.gameManager)
