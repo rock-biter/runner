@@ -21,7 +21,7 @@ export default class GameManager {
 	record = 0
 
 	platforms = []
-	initialPlatformNumber = 10
+	initialPlatformNumber = 15
 	platformsLimit = 20
 	lastPlatformVisited = null
 
@@ -124,7 +124,7 @@ export default class GameManager {
 	_collidedPlatform(platform) {
 		if (this.lastPlatformVisited !== platform) {
 			this.lastPlatformVisited = platform
-			let p = this._addPlatform()
+			this._addPlatform()
 		}
 
 		let i = parseInt(Math.random() * (Platform.COLORS.length - 1))

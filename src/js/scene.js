@@ -209,9 +209,21 @@ export default class BasicScene {
 
 		if (player) {
 			//limit y positive velocity
-			player.velocity.y = player.velocity.y < 40 ? player.velocity.y : 40
-
 			if (this.isStarted) player.applyImpulse(this.wind)
+
+			player.velocity.y = player.velocity.y < 40 ? player.velocity.y : 40
+			player.velocity.z = player.velocity.z < 0 ? player.velocity.z : 0
+			player.velocity.z = player.velocity.z < -150 ? -150 : player.velocity.z //reduce on mobile
+
+			// this.camera.position.z = THREE.MathUtils.lerp(
+			// 	player.position.z + this.camera.position.y - this.offset,
+			// 	this.camera.position.z,
+			// 	0.9
+			// )
+			this.camera.position.z =
+				player.position.z + this.camera.position.y - this.offset
+			// this.controls.target.z = this.camera.position.z - this.camera.position.y
+			this.score.innerHTML = parseInt(-player.position.z * 2)
 
 			if (player.position.y < -20) this.gameover = true
 		}
@@ -224,7 +236,6 @@ export default class BasicScene {
 		this.world.gravity.vadd(this.wind)
 
 		let delta = Math.min(this.clock.getDelta(), 0.1)
-
 		this.world.step(delta)
 
 		if (this.player?.sparks) {
@@ -291,19 +302,11 @@ export default class BasicScene {
 			// }
 
 			this.meshes[i].position.copy(this.bodies[i].position)
-
 			this.meshes[i].quaternion.copy(this.bodies[i].quaternion)
 		}
 
-		if (player) {
-			this.camera.position.z = THREE.MathUtils.lerp(
-				player.position.z + this.camera.position.y - this.offset,
-				this.camera.position.z,
-				0.9
-			)
-			this.controls.target.z = this.camera.position.z - this.camera.position.y
-			this.score.innerHTML = parseInt(-player.position.z * 2)
-		}
+		// if (player) {
+		// }
 
 		// console.log(bullets)
 

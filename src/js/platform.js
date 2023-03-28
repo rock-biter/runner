@@ -3,6 +3,7 @@ import * as CANNON from 'cannon-es'
 import Enemy from './enemy'
 
 export default class Platform {
+	number
 	phongMaterial
 	height
 	depth
@@ -14,9 +15,12 @@ export default class Platform {
 	enemies = []
 	gameManager
 
+	enemyTypes = ['shit', 'shit', 'shit', 'ballshit']
+
 	constructor(x, velocity, gameManager) {
 		// console.log(velocity)
 		this.gameManager = gameManager
+		this.number = this.gameManager.platforms.length
 		let z = velocity.z ? Math.floor(Math.abs(velocity.z)) : 20
 
 		this.phongMaterial = new THREE.MeshPhongMaterial({
@@ -36,7 +40,7 @@ export default class Platform {
 			)
 		}
 
-		this.depth = THREE.MathUtils.randInt(z / 4, z * 2.5) * 2
+		this.depth = THREE.MathUtils.randInt(z / 2, z * 2.5) * 2
 		this.gap = Math.floor(THREE.MathUtils.randInt(4, 4 + z * 0.2))
 
 		this.height = 100
@@ -59,18 +63,39 @@ export default class Platform {
 
 		const numOfEnemies = Math.round(this.depth / 130)
 
-		for (let i = 0; i < numOfEnemies; i++) {
-			this._addEnemy()
+		// console.log(this.number)
+		if (this.number > 0) {
+			for (let i = 0; i < numOfEnemies; i++) {
+				this._addEnemy()
+			}
 		}
 	}
 
 	_addEnemy() {
-		let zPos = this.mesh.position.z
+		let type, zPos, velocity
+		if (!this.gameManager.isStarted) {
+			type = 'shit'
+		} else {
+			const i = THREE.MathUtils.randInt(0, this.enemyTypes.length - 1)
+			console.log(i)
+			type = this.enemyTypes[i]
+		}
+
+		zPos = this.mesh.position.z
 		zPos += (Math.random() - 0.5) * 0.9 * this.depth
 
-		console.log(Math.random() - 0.5)
+		console.log(type)
 
-		const e = new Enemy(this.gameManager, new THREE.Vector3(0, 0, zPos))
+		if (type === 'ballshit') {
+			velocity = new CANNON.Vec3(0, 0, 7.5)
+		}
+
+		const e = new Enemy(
+			this.gameManager,
+			type,
+			new THREE.Vector3(0, 0, zPos),
+			velocity
+		)
 
 		this.enemies.push(e)
 

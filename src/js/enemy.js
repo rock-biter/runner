@@ -18,26 +18,34 @@ export default class Enemy {
 
 	sleep = false
 
-	constructor(gameManager, position, velocity) {
+	constructor(gameManager, type = 'shit', position, velocity) {
 		this.gameManager = gameManager
 
 		// this.geometry = new THREE.BoxGeometry(1.8, 1.8, 1.8)
-		this._setGeometry()
-		this.material = new THREE.MeshStandardMaterial({ color: '#8e4500' })
+		this._setGeometry(type)
+		this.material = new THREE.MeshStandardMaterial({
+			color: '#8e4500',
+			flatShading: true,
+		})
 		this.mesh = new THREE.Mesh(this.geometry, this.material)
 
 		if (position) {
 			this.mesh.position.copy(position)
 		}
 
-		const initialVelocity = new CANNON.Vec3(0, 0, 5)
+		if (type === 'ballshit') {
+			this.mesh.position.setY(Math.random() > 0.5 ? 3 : 6)
+		}
+
+		const initialVelocity = velocity || new CANNON.Vec3(0, 0, 0)
 
 		this.shape = new CANNON.Box(new CANNON.Vec3(0.9, 0.9, 0.9))
 		this.body = new CANNON.Body({
-			mass: 0,
+			mass: 1,
 			shape: this.shape,
 			fixedRotation: true,
 			velocity: initialVelocity,
+			type: velocity ? CANNON.Body.KINEMATIC : CANNON.Body.STATIC,
 		})
 
 		this.body.position.copy(this.mesh.position)
@@ -80,9 +88,22 @@ export default class Enemy {
 		}, 500)
 	}
 
-	_setGeometry(type = 'shit') {
+	_setGeometry(type = 'ballshit') {
 		// this.geometry =
 
+		switch (type) {
+			case 'shit':
+				this.geometry = this._getShitGeometry()
+				break
+			case 'ballshit':
+				this.geometry = this._getBallShitGeometry()
+				break
+			default:
+				this.geometry = this._getShitGeometry()
+		}
+	}
+
+	_getShitGeometry() {
 		const base = new THREE.BoxGeometry(1.8, 0.4, 1.8)
 		base.translate(0, 0.21, 0)
 		const mid = new THREE.BoxGeometry(1.2, 0.4, 1.2)
@@ -90,6 +111,18 @@ export default class Enemy {
 		const top = new THREE.BoxGeometry(0.5, 0.4, 0.5)
 		top.translate(0, 1.01, 0)
 
-		this.geometry = mergeBufferGeometries([base, mid, top])
+		return mergeBufferGeometries([base, mid, top])
+	}
+
+	_getBallShitGeometry() {
+		const ball = new THREE.SphereGeometry(1.15, 5, 5)
+		ball.rotateX(Math.PI * 0.5 * Math.random())
+		ball.rotateY(Math.PI * 0.5 * Math.random())
+
+		const tail = new THREE.SphereGeometry(0.5, 5, 5)
+		tail.translate(0, 0, 1)
+		tail.rotateX(Math.PI * 0.5)
+
+		return mergeBufferGeometries([ball, tail])
 	}
 }
