@@ -25,8 +25,9 @@ export default class PlayerController {
 	}
 
 	_jump() {
-		if (this._B.position.y < 3.0 && this._B.position.y >= 1.0) {
+		if (this._B.position.y < 2.0 && this._B.position.y >= 0.0) {
 			this._B.applyImpulse(new CANNON.Vec3(0, 12, 0))
+			console.log(this._B.velocity)
 			SOUNDS._JUMP.play()
 			// this.isJumping = true
 			incrementJumpCounter()

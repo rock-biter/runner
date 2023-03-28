@@ -38,6 +38,7 @@ export default class Player {
 			mass: 0.3,
 			shape: this.shape,
 			fixedRotation: true,
+			sleepSpeedLimit: 1,
 		})
 
 		this.body.position.copy(this.mesh.position)

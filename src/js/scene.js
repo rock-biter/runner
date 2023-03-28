@@ -208,6 +208,9 @@ export default class BasicScene {
 		let player = this.player?.body //this.bodies[0]
 
 		if (player) {
+			//limit y positive velocity
+			player.velocity.y = player.velocity.y < 40 ? player.velocity.y : 40
+
 			if (this.isStarted) player.applyImpulse(this.wind)
 
 			if (player.position.y < -20) this.gameover = true
@@ -292,7 +295,7 @@ export default class BasicScene {
 			this.meshes[i].quaternion.copy(this.bodies[i].quaternion)
 		}
 
-		if (this.meshes.length) {
+		if (player) {
 			this.camera.position.z = THREE.MathUtils.lerp(
 				player.position.z + this.camera.position.y - this.offset,
 				this.camera.position.z,
