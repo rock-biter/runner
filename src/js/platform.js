@@ -84,8 +84,6 @@ export default class Platform {
 		zPos = this.mesh.position.z
 		zPos += (Math.random() - 0.5) * 0.9 * this.depth
 
-		console.log(type)
-
 		if (type === 'ballshit') {
 			velocity = new CANNON.Vec3(0, 0, 7.5)
 		}

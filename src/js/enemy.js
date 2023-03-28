@@ -115,14 +115,15 @@ export default class Enemy {
 	}
 
 	_getBallShitGeometry() {
-		const ball = new THREE.SphereGeometry(1.15, 5, 5)
+		const ball = new THREE.SphereGeometry(1.15, 7, 5)
 		ball.rotateX(Math.PI * 0.5 * Math.random())
 		ball.rotateY(Math.PI * 0.5 * Math.random())
+		// ball.scale(1, 1, 1.4)
 
-		const tail = new THREE.SphereGeometry(0.5, 5, 5)
-		tail.translate(0, 0, 1)
+		const tail = new THREE.SphereGeometry(0.8, 5, 5)
 		tail.rotateX(Math.PI * 0.5)
+		tail.translate(0, 0, -1)
 
-		return mergeBufferGeometries([ball, tail])
+		return mergeBufferGeometries([ball])
 	}
 }
